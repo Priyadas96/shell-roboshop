@@ -22,8 +22,8 @@ else
 	echo "You are running with root access" | tee -a $LOG_FILE
 fi
 
-echo "please enter root password to setup"
-read -s MYSQL_ROOT_PASSWORD
+#echo "please enter root password to setup"
+#read -s MYSQL_ROOT_PASSWORD
 
 # validate functions takes input as exit status, what command they tried to install
 VALIDATE() {
@@ -44,7 +44,7 @@ VALIDATE $? "enabling mysql"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "starting mysql"
 
-mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD &>>$LOG_FILE
+mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
 VALIDATE $? "setting mysql root password"
 
 END_TIME=$(date +%s)
