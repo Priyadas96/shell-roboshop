@@ -62,8 +62,6 @@ cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 Validate $? "Copying catalogue service"
 
 systemctl daemon-reload &>>$LOGS_FILE
-systemctl enable catalogue &>>$LOG_FILE
-systemctl start catalogue &>>$LOG_FILE
 Validate $? "Starting Catalogue"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
