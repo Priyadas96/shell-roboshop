@@ -1,5 +1,5 @@
 #!/bin/bash
-USER_ID=$(ID -u)
+USER_ID=$(id -u)
 
 R="\e[31m"
 G="\e[32m"
@@ -38,17 +38,17 @@ Validate $? "Installing nodejs"
 
 id roboshop
 if [ $? -ne 0 ]; then
-	useradd roboshop --shell /sbin/nologin --home /app --system --comment "roboshop sytem user" &>>$LOGS_FILE
-	Validate $? "creating roboshop user"
+	useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+	VALIDATE $? "Creating roboshop system user"
 else
-	echo -e "System user ROBOSHOP already created...$Y Skipping$N"
+	echo -e "System user roboshop already created ... $Y SKIPPING $N"
 fi
 
 mkdir -p /app
-Validate $? "creating app directory"
+VALIDATE $? "Creating app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
-Validate $? "downloading catalogue file"
+VALIDATE $? "Downloading Catalogue"
 
 rm -rf /app/*
 cd /app
