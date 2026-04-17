@@ -39,32 +39,32 @@ Validate $? "Installing nodejs"
 id roboshop
 if [ $? -ne 0 ]; then
 	useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
-	VALIDATE $? "Creating roboshop system user"
+	Validate $? "Creating roboshop system user"
 else
 	echo -e "System user roboshop already created ... $Y SKIPPING $N"
 fi
 
 mkdir -p /app
-VALIDATE $? "Creating app directory"
+Validate $? "Creating app directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
-VALIDATE $? "Downloading Catalogue"
+curl --skip-existing -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
+Validate $? "Downloading Catalogue"
 
 rm -rf /app/*
 cd /app
 unzip /tmp/catalogue.zip &>>$LOGS_FILE
-VALIDATE $? "unzipping catalogue"
+Validate $? "unzipping catalogue"
 
 npm install &>>$LOGS_FILE
-VALIDATE $? "Installing dependencies"
+Validate $? "Installing dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 Validate $? "Copying catalogue service"
 
 systemctl daemon-reload &>>$LOGS_FILE
 systemctl enable catalogue &>>$LOG_FILE
-systemctl start catalogue
-VALIDATE $? "Starting Catalogue"
+systemctl start catalogue &>>$LOG_FILE
+Validate $? "Starting Catalogue"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$LOGS_FILE
