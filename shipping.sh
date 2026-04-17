@@ -23,7 +23,6 @@ else
 fi
 
 echo "Please enter root password to setup"
-#mysql_secure_installation --set-root-pass RoboShop@1
 read -s MYSQL_ROOT_PASSWORD
 
 # validate functions takes input as exit status, what command they tried to install
@@ -82,7 +81,7 @@ mysql -h mysql.daws-sunny.site -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities' &>
 if [ $? -ne 0 ]; then
 	mysql -h mysql.daws-sunny.site -uroot -p$MYSQL_ROOT_PASSWORD </app/db/schema.sql &>>$LOG_FILE
 	mysql -h mysql.daws-sunny.site -uroot -p$MYSQL_ROOT_PASSWORD </app/db/app-user.sql &>>$LOG_FILE
-	mysql -h mysql.daws-sunny -uroot -p$MYSQL_ROOT_PASSWORD </app/db/master-data.sql &>>$LOG_FILE
+	mysql -h mysql.daws-sunny.site -uroot -p$MYSQL_ROOT_PASSWORD </app/db/master-data.sql &>>$LOG_FILE
 	VALIDATE $? "Loading data into MySQL"
 else
 	echo -e "Data is already loaded into MySQL ... $Y SKIPPING $N"
