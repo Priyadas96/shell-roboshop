@@ -31,14 +31,14 @@ VALIDATE() {
 	fi
 }
 
-dnf module disable nginx -y &>>$LOGS_FILE
-VALIDATE $? "disabling nginx"
+dnf module disable nginx -y &>>$LOG_FILE
+VALIDATE $? "Disabling Default Nginx"
 
-dnf module enable nginx:1.24 -y &>>$LOGS_FILE
-VALIDATE $? "enabling nginx"
+dnf module enable nginx:1.24 -y &>>$LOG_FILE
+VALIDATE $? "Enabling Nginx:1.24"
 
-dnf install nginx -y &>>$LOGS_FILE
-VALIDATE $? "Installing nginx"
+dnf install nginx -y &>>$LOG_FILE
+VALIDATE $? "Installing Nginx"
 
 rm -rf /usr/share/nginx/html/* &>>$LOGS_FILE
 VALIDATE $? "removing nginx default files"
